@@ -1,0 +1,83 @@
+reader:
+    name: envi_scia_l1c
+    description: Reader for sciamachy hyperspectral nadir soundings
+    reader: !!python/name:satpy.readers.yaml_reader.FileYAMLReader ''
+    sensors: [SCIAMACHY]
+    default_channels:
+
+datasets:
+    measurements:
+        name: measurements
+        resolution: 40000
+        calibration:
+          radiance:
+            standard_name: radiance
+            units: W m-2 nm-1 sr-1 
+        coordinates:
+            - wavelength
+            - longitude
+            - latitude
+        file_type: sciamachy
+    
+    wavelength:
+        name: wavelength
+        resolution: 40000
+        file_type: sciamachy
+        standard_name: wavelength
+        units: nm
+
+    latitude:
+        name: latitude
+        resolution: 40000
+        file_type: sciamachy
+        standard_name: latitude
+        units: degree
+
+    longitude:
+        name: longitude
+        resolution: 40000
+        file_type: sciamachy
+        standard_name: longitude
+        units: degree
+
+    solar_irradiation:
+        name: solar_irradiation
+        sensor: sciamachy
+        resolution: 40000
+        coordinates: [wavelength, longitude, latitude]
+        file_type: sciamachy
+
+    solar_zenith_angle:
+        name: solar_zenith_angle
+        sensor: sciamachy
+        resolution: 40000
+        coordinates: [longitude, latitude]
+        file_type: sciamachy
+
+    solar_azimuth_angle:
+        name: solar_azimuth_angle
+        sensor: sciamachy
+        resolution: 40000
+        coordinates: [longitude, latitude]
+        file_type: sciamachy
+
+    satellite_zenith_angle:
+        name: satellite_zenith_angle
+        sensor: sciamachy
+        resolution: 40000
+        coordinates: [longitude, latitude]
+        file_type: sciamachy
+
+    satellite_azimuth_angle:
+        name: satellite_azimuth_angle
+        sensor: sciamachy
+        resolution: 40000
+        coordinates: [longitude, latitude]
+        file_type: sciamachy
+
+file_types:
+    sciamachy:
+        file_reader: !!python/name:satpy.readers.envi_scia_l1c.SCIAMACHYFile ''
+        file_patterns: [
+                       'SCI_NL__1PYDPA{start_time:%Y%m%d%}_{start_time:%H%M%SZ}_*_*_*_0000.N1',
+                       'SCI_NL__1PYDPA{start_time:%Y%m%d%}_{start_time:%H%M%SZ}_*_*_*_0000.N1.child']
